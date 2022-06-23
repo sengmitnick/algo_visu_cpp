@@ -1,3 +1,2 @@
-compile_command: "make -s"
-
-run_command: "./main"
+compile_command: "gcc main.cpp -lstdc++"
+run_command: "./a.out"
