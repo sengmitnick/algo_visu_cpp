@@ -1,0 +1,3 @@
+compile_command: "make -s"
+
+run_command: "./main"
