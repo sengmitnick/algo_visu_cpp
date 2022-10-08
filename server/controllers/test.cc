@@ -1,8 +1,59 @@
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <dirent.h>
+#include <fcntl.h>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <stdio.h>
+#include <unistd.h>
+#include <malloc.h>
 
 #include "test.h"
+
+int remove_directory(const char *path) {
+   DIR *d = opendir(path);
+   size_t path_len = strlen(path);
+   int r = -1;
+
+   if (d) {
+      struct dirent *p;
+
+      r = 0;
+      while (!r && (p=readdir(d))) {
+          int r2 = -1;
+          char *buf;
+          size_t len;
+
+          /* Skip the names "." and ".." as we don't want to recurse on them. */
+          if (!strcmp(p->d_name, ".") || !strcmp(p->d_name, ".."))
+             continue;
+
+          len = path_len + strlen(p->d_name) + 2; 
+          buf = (char*)malloc(len);
+
+          if (buf) {
+             struct stat statbuf;
+
+             snprintf(buf, len, "%s/%s", path, p->d_name);
+             if (!stat(buf, &statbuf)) {
+                if (S_ISDIR(statbuf.st_mode))
+                   r2 = remove_directory(buf);
+                else
+                   r2 = unlink(buf);
+             }
+             free(buf);
+          }
+          r = r2;
+      }
+      closedir(d);
+   }
+
+   if (!r)
+      r = rmdir(path);
+
+   return r;
+}
 
 std::string getCmdResult(const std::string &strCmd)
 {
@@ -22,7 +73,7 @@ std::string getCmdResult(const std::string &strCmd)
 	
 	pclose(pf);
  
-	unsigned int iSize =  strResult.size();
+	unsigned int iSize = strResult.size();
 	if(iSize > 0 && strResult[iSize - 1] == '\n')  // linux
 	{
 		strResult = strResult.substr(0, iSize - 1);
@@ -34,20 +85,31 @@ std::string getCmdResult(const std::string &strCmd)
 void test::GetTracerCpp(const HttpRequestPtr &req,
                                 std::function<void(const HttpResponsePtr&)>&&callback)
 {
+  int systemRet;
   std::ifstream ifs;
   Json::Value root;
   JSONCPP_STRING errs;
   Json::CharReaderBuilder builder;
   std::string bodyResp;
 
+  std::string tmpDir = getCmdResult("cat /proc/sys/kernel/random/uuid");
+  std::string folderPath = "/home/runner/tmp/" + tmpDir;
+  std::string visualizationPath = folderPath + "/visualization.json";
+  std::string runCmd = "cd " + folderPath + " && cp ~/app/main.cpp . && g++ main.cpp -o a.out -O2 -std=c++11 -lcurl -B /home/runner/var/empty/local && ALGORITHM_VISUALIZER=1 ./a.out";
+
   builder["collectComments"] = false;
 
-  std::string tmpDir = getCmdResult("cat /proc/sys/kernel/random/uuid");
-  std::string runCmd = "mkdir -p ~/app/tmp/ "+ tmpDir + " && cd " + tmpDir + " && g++ ~/app/algorithm.cpp -o ~/app/algorithm.out -O2 -std=c++11 -lcurl -B /home/runner/var/empty/local";
+  systemRet = mkdir(folderPath.c_str(), S_IRWXU);
+  if(systemRet == -1){
+    bodyResp = "mkdir failed";
+    auto resp = HttpResponse::newHttpJsonResponse(bodyResp);
+    resp->setBody(bodyResp);
+    resp->setStatusCode(k400BadRequest);
+    callback(resp);
+    return;
+  }
 
-  std::cout << runCmd << std::endl;
-
-  int systemRet = system("g++ ~/app/algorithm.cpp -o ~/app/algorithm.out -O2 -std=c++11 -lcurl -B /home/runner/var/empty/local && ALGORITHM_VISUALIZER=1 ~/app/algorithm.out");
+  systemRet = system(runCmd.c_str());
   if(systemRet == -1){
     bodyResp = "run failed";
     auto resp = HttpResponse::newHttpJsonResponse(bodyResp);
@@ -57,7 +119,7 @@ void test::GetTracerCpp(const HttpRequestPtr &req,
     return;
   }
   
-  ifs.open("/home/runner/app/visualization.json",std::ios::in);
+  ifs.open(visualizationPath.c_str(),std::ios::in);
   if (!ifs.is_open()) {
     bodyResp = "read failed";
     auto resp = HttpResponse::newHttpJsonResponse(bodyResp);
@@ -75,6 +137,16 @@ void test::GetTracerCpp(const HttpRequestPtr &req,
   }
 
   ifs.close();
+
+  systemRet = remove_directory(folderPath.c_str());
+  if(systemRet == -1){
+    bodyResp = "rm failed";
+    auto resp = HttpResponse::newHttpJsonResponse(bodyResp);
+    resp->setBody(bodyResp);
+    resp->setStatusCode(k400BadRequest);
+    callback(resp);
+    return;
+  }
   auto resp = HttpResponse::newHttpJsonResponse(root);
   resp->setStatusCode(k200OK);
   callback(resp);

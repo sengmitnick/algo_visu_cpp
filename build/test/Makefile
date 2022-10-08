@@ -117,25 +117,25 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-test/CMakeFiles/DrogonSQL_test.dir/rule:
-	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/DrogonSQL_test.dir/rule
-.PHONY : test/CMakeFiles/DrogonSQL_test.dir/rule
+test/CMakeFiles/server_test.dir/rule:
+	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/server_test.dir/rule
+.PHONY : test/CMakeFiles/server_test.dir/rule
 
 # Convenience name for target.
-DrogonSQL_test: test/CMakeFiles/DrogonSQL_test.dir/rule
-.PHONY : DrogonSQL_test
+server_test: test/CMakeFiles/server_test.dir/rule
+.PHONY : server_test
 
 # fast build rule for target.
-DrogonSQL_test/fast:
-	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/DrogonSQL_test.dir/build.make test/CMakeFiles/DrogonSQL_test.dir/build
-.PHONY : DrogonSQL_test/fast
+server_test/fast:
+	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server_test.dir/build.make test/CMakeFiles/server_test.dir/build
+.PHONY : server_test/fast
 
 test_main.o: test_main.cc.o
 .PHONY : test_main.o
 
 # target to build an object file
 test_main.cc.o:
-	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/DrogonSQL_test.dir/build.make test/CMakeFiles/DrogonSQL_test.dir/test_main.cc.o
+	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server_test.dir/build.make test/CMakeFiles/server_test.dir/test_main.cc.o
 .PHONY : test_main.cc.o
 
 test_main.i: test_main.cc.i
@@ -143,7 +143,7 @@ test_main.i: test_main.cc.i
 
 # target to preprocess a source file
 test_main.cc.i:
-	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/DrogonSQL_test.dir/build.make test/CMakeFiles/DrogonSQL_test.dir/test_main.cc.i
+	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server_test.dir/build.make test/CMakeFiles/server_test.dir/test_main.cc.i
 .PHONY : test_main.cc.i
 
 test_main.s: test_main.cc.s
@@ -151,7 +151,7 @@ test_main.s: test_main.cc.s
 
 # target to generate assembly for a file
 test_main.cc.s:
-	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/DrogonSQL_test.dir/build.make test/CMakeFiles/DrogonSQL_test.dir/test_main.cc.s
+	cd /home/runner/app/build && $(MAKE) $(MAKESILENT) -f test/CMakeFiles/server_test.dir/build.make test/CMakeFiles/server_test.dir/test_main.cc.s
 .PHONY : test_main.cc.s
 
 # Help Target
@@ -162,7 +162,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... DrogonSQL_test"
+	@echo "... server_test"
 	@echo "... test_main.o"
 	@echo "... test_main.i"
 	@echo "... test_main.s"

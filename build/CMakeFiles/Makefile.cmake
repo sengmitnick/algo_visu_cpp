@@ -73,5 +73,5 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/server.dir/DependInfo.cmake"
-  "test/CMakeFiles/DrogonSQL_test.dir/DependInfo.cmake"
+  "test/CMakeFiles/server_test.dir/DependInfo.cmake"
   )

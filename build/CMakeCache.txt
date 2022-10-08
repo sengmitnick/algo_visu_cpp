@@ -288,6 +288,15 @@ server_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 server_SOURCE_DIR:STATIC=/home/runner/app/server
 
+//Value Computed by CMake
+server_test_BINARY_DIR:STATIC=/home/runner/app/build/test
+
+//Value Computed by CMake
+server_test_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+server_test_SOURCE_DIR:STATIC=/home/runner/app/server/test
+
 
 ########################
 # INTERNAL cache entries

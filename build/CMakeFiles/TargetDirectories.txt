@@ -3,4 +3,4 @@
 /home/runner/app/build/CMakeFiles/server.dir
 /home/runner/app/build/test/CMakeFiles/rebuild_cache.dir
 /home/runner/app/build/test/CMakeFiles/edit_cache.dir
-/home/runner/app/build/test/CMakeFiles/DrogonSQL_test.dir
+/home/runner/app/build/test/CMakeFiles/server_test.dir

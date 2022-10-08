@@ -130,17 +130,17 @@ server/fast:
 .PHONY : server/fast
 
 #=============================================================================
-# Target rules for targets named DrogonSQL_test
+# Target rules for targets named server_test
 
 # Build rule for target.
-DrogonSQL_test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 DrogonSQL_test
-.PHONY : DrogonSQL_test
+server_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server_test
+.PHONY : server_test
 
 # fast build rule for target.
-DrogonSQL_test/fast:
-	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/DrogonSQL_test.dir/build.make test/CMakeFiles/DrogonSQL_test.dir/build
-.PHONY : DrogonSQL_test/fast
+server_test/fast:
+	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/server_test.dir/build.make test/CMakeFiles/server_test.dir/build
+.PHONY : server_test/fast
 
 controllers/test.o: controllers/test.cc.o
 .PHONY : controllers/test.o
@@ -198,8 +198,8 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... DrogonSQL_test"
 	@echo "... server"
+	@echo "... server_test"
 	@echo "... controllers/test.o"
 	@echo "... controllers/test.i"
 	@echo "... controllers/test.s"
