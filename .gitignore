@@ -4,3 +4,8 @@
 .1024nix
 .1024feature*
 .nfs*
+/tmp
+/client/media
+/logs/*
+!/logs/.gitkeep
+node_modules
