@@ -9,3 +9,4 @@
 !/logs/.gitkeep
 *.out
 node_modules
+.ccls-cache
